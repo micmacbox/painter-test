@@ -3,7 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "webpack --config webpack.config.js --watch "
+  },
   "devDependencies": {
     "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "ts-loader": "^9.4.2",
+    "webpack": "^5.81.0",
+    "webpack-cli": "^5.0.2"
   }
 }
