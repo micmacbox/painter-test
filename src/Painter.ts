@@ -55,13 +55,13 @@ export default class Painter {
   private _startDraw(event: MouseEvent) {
     const { clientX: x, clientY: y } = event;
     this._figure = this._createFigure(this.drawOption);
-    this._figure.draw({ x, y });
+    this._figure.draw(this._ctx, { x, y }, 'start');
   }
 
   private _drawing(event: MouseEvent) {
     if (!this._figure) return;
     const { clientX: x, clientY: y } = event;
-    this._figure.draw({ x, y });
+    this._figure.draw(this._ctx, { x, y });
   }
 
   private _endDraw(event: MouseEvent) {
@@ -70,7 +70,7 @@ export default class Painter {
       drawOption: this._figure.drawOption,
       positions: this._figure.positions,
     });
-    this._figure.render(this._ctx);
+    // this._figure.render(this._ctx);
     this._figure = undefined;
   }
 

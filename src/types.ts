@@ -7,6 +7,7 @@ export type DrawType =
 export type DrawColor = string;
 export type LineWidth = number;
 export type Position = { x: number; y: number };
+export type DrawState = 'start' | 'drawing' | 'end';
 
 export interface DrawOption {
   type?: DrawType;
@@ -17,7 +18,11 @@ export interface DrawOption {
 
 export interface Figure {
   render(ctx: CanvasRenderingContext2D): void;
-  draw(position: Position): void;
+  draw(
+    ctx: CanvasRenderingContext2D,
+    position: Position,
+    state?: DrawState
+  ): void;
   positions: Position[];
   drawOption: DrawOption;
 }

@@ -1,4 +1,4 @@
-import { DrawOption, Figure, Position } from '../types';
+import { DrawOption, DrawState, Figure, Position } from '../types';
 export default class FreeLine implements Figure {
   positions: Position[];
   drawOption: DrawOption;
@@ -8,9 +8,20 @@ export default class FreeLine implements Figure {
     this.positions = [];
   }
 
-  draw(position: Position) {
+  draw(ctx: CanvasRenderingContext2D, position: Position, state?: DrawState) {
     this.positions.push(position);
+
+    ctx.lineWidth = this.drawOption.lineWidth || 3;
+    ctx.strokeStyle = this.drawOption.color || 'red';
+
+    if (state === 'start') {
+      ctx.beginPath();
+      ctx.moveTo(position.x, position.y);
+    }
+    ctx.lineTo(position.x, position.y);
+    ctx.stroke();
   }
+
   render(ctx: CanvasRenderingContext2D) {
     // 배열의 첫번째 점으로 이동
     ctx.moveTo(this.positions[0].x, this.positions[0].y);
