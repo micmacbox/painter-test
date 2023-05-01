@@ -7,8 +7,8 @@ const painter = new Painter({
   height: 600,
   drawOption: {
     type: 'freeLine',
-    color: 'red',
-    thickness: 3,
+    color: 'orange',
+    lineWidth: 3,
     lineCap: 'butt',
   },
 });
