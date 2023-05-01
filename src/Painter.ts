@@ -1,4 +1,4 @@
-import { DrawHistory, DrawOption, Figure } from './types';
+import { DrawHistory, DrawOption, Figure, Position } from './types';
 import FreeLine from './Figure/FreeLine';
 
 /**
@@ -55,13 +55,13 @@ export default class Painter {
   private _startDraw(event: MouseEvent) {
     const { clientX: x, clientY: y } = event;
     this._figure = this._createFigure(this.drawOption);
-    this._figure.draw(this._ctx, { x, y }, 'start');
+    this._figure.draw(this._ctx, this.normalizePosition({ x, y }), 'start');
   }
 
   private _drawing(event: MouseEvent) {
     if (!this._figure) return;
     const { clientX: x, clientY: y } = event;
-    this._figure.draw(this._ctx, { x, y });
+    this._figure.draw(this._ctx, this.normalizePosition({ x, y }));
   }
 
   private _endDraw(event: MouseEvent) {
@@ -70,11 +70,15 @@ export default class Painter {
       drawOption: this._figure.drawOption,
       positions: this._figure.positions,
     });
-    // this._figure.render(this._ctx);
     this._figure = undefined;
   }
 
   private _createFigure(drawOption: DrawOption) {
     return new FreeLine(drawOption);
+  }
+
+  normalizePosition({ x, y }: Position): Position {
+    const { top, left } = this._canvas.getBoundingClientRect();
+    return { x: x - left, y: y - top };
   }
 }
