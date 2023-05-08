@@ -1,5 +1,6 @@
 import { DrawHistory, DrawOption, Figure, Position } from './types';
 import FreeLine from './Figure/FreeLine';
+import Rectangle from './Figure/Rectangle';
 
 /**
  * @TODO:
@@ -32,6 +33,9 @@ export default class Painter {
     this._ctx = canvas.getContext('2d')!;
 
     this._attachEvent();
+  }
+  updateOption(drawOption: DrawOption) {
+    this._drawOption = drawOption;
   }
 
   get drawOption() {
@@ -70,11 +74,20 @@ export default class Painter {
       drawOption: this._figure.drawOption,
       positions: this._figure.positions,
     });
+    const { clientX: x, clientY: y } = event;
+    this._figure.draw(this._ctx, this.normalizePosition({ x, y }), 'end');
     this._figure = undefined;
   }
 
   private _createFigure(drawOption: DrawOption) {
-    return new FreeLine(drawOption);
+    switch (drawOption.type) {
+      case 'freeLine':
+        return new FreeLine(drawOption);
+      case 'rectangle':
+        return new Rectangle(drawOption);
+      default:
+        return new FreeLine(drawOption);
+    }
   }
 
   normalizePosition({ x, y }: Position): Position {
